@@ -10,6 +10,14 @@ public class Livro implements Serializable {
     private String nome;
     private String autor;
 
+    public Livro (String isbn, String nome, String autor) {
+        this.isbn = isbn;
+        this.nome = nome;
+        this.autor = autor;
+    }
+
+    public Livro () {}
+
     /**
      * @return the isbn
      */

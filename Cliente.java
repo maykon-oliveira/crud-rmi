@@ -1,4 +1,5 @@
 import java.rmi.*;
+import java.util.Scanner;
 
 public class Cliente {
 	
@@ -18,7 +19,27 @@ public class Cliente {
 	}
 	public static void main(String[] argv) {
 		Cliente c = new Cliente();
+		Scanner scannner = new Scanner(System.in);
+
+		Short op = 0;
+		
+		c.menu();
+		do {
+			op = scannner.nextShort();
+			System.err.println(op);
+		} while (op != 0);
+
+		scannner.close();
 	}
 
-
+	public void menu() {
+		System.out.println(" CRUD RMI: Livraria ");
+		System.out.println("====================");
+		System.out.println("1 - listar livros.  ");
+		System.out.println("2 - adicionar livro.");
+		System.out.println("3 - atualizar livro.");
+		System.out.println("4 - remover livro.");
+		System.out.println("9 - Menu.");
+		System.out.println("0 - sair.");
+	}
 }
