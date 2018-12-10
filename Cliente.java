@@ -1,5 +1,6 @@
 import java.net.MalformedURLException;
 import java.rmi.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Cliente {
@@ -18,39 +19,41 @@ public class Cliente {
 
             try (Scanner entrada = new Scanner(System.in)) {
                 Short op = 0;
-                String aux = "";
 
                 c.menu();
                 do {
+                    System.out.print("\nEntre com a opção: ");
                     op = entrada.nextShort();
 
                     switch (op) {
                         case 1:
+                            System.out.println("\nLivros na estante");
+                            System.out.println("=================");
                             servidor.pegarTodos().forEach(System.out::println);
                             break;
                         case 2:
-                            Livro livro = new Livro();
+                            System.out.println("\nENTRE COM AS INFORMAÇÕES");
+                            
                             System.out.print("ISBN: ");
-                            aux = entrada.nextLine();
-                            livro.setIsbn(aux);
+                            String isbn = entrada.nextLine();
                             System.out.print("Nome: ");
-                            aux = entrada.nextLine();
-                            livro.setNome(aux);
+                            String nome = entrada.nextLine();
                             System.out.print("Autor: ");
-                            aux = entrada.nextLine();
-                            livro.setAutor(aux);
+                            String autor = entrada.nextLine();
                             System.out.print("Quantidade: ");
                             Integer qtd = entrada.nextInt();
-                            livro.setQuantidade(qtd);
+
+                            Livro livro = new Livro(isbn, nome, autor, qtd);
                             
                             servidor.addLivro(livro);
                             break;
                         case 3:
-                            System.out.println("Alterar quantidade");
+                            System.out.println("\nAlterar quantidade");
                             break;
                         case 4:
-                            aux = entrada.nextLine();
-                            servidor.delete(aux);
+                            System.out.print("Digite o ISBN: ");
+                            String isb = entrada.nextLine();			
+                            System.out.println(servidor.delete(isb) ? "Livro excluído!" : "Livro não encontrado!");                        
                             break;
                         case 9:
                             c.menu();
@@ -66,13 +69,14 @@ public class Cliente {
         } catch (MalformedURLException | NotBoundException | RemoteException e) {
             System.err.println("Falhou na inicialização do Cliente.\n" + e);
             System.err.println("Certifique-se que tanto o Servidor de Registos como a Aplicação Servidora estão a correr correctamente.\n");
+        } catch (InputMismatchException e) {
+            System.err.println("Entrada inválida");
         }
 
     }
 
     public void menu() {
-        System.out.println(" CRUD RMI: Livraria ");
-        System.out.println("====================");
+        System.out.println("\nCRUD RMI: Livraria");
         System.out.println("1 - listar livros.  ");
         System.out.println("2 - adicionar livro.");
         System.out.println("3 - atualizar livro.");

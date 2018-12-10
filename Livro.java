@@ -70,6 +70,11 @@ public class Livro implements Serializable {
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
+
+    @Override
+    public String toString() {
+	    return "ISBN: " + isbn + "\nNome: " + nome + "\nQuantidade: " + quantidade + " unidades" ;
+    }
     
     @Override
     public int hashCode() {
