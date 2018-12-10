@@ -1,6 +1,8 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * ServidorImple
@@ -8,29 +10,50 @@ import java.util.List;
 public class ServidorImple extends UnicastRemoteObject implements Servidor {
 
     private static final long serialVersionUID = 1L;
+    private final List<Livro> livros;
 
     public ServidorImple() throws RemoteException {
         System.out.println("Novo Servidor instanciado...");
+        livros = new ArrayList<>();
     }
 
     @Override
     public boolean addLivro(Livro livro) throws RemoteException {
-        return true;
+        if (livros.contains(livro)) {
+            return false;
+        } else {
+            livros.add(livro);
+            return true;
+        }        
+    }
+
+    @Override
+    public void atualizar(Livro livro) throws RemoteException, LivroNotFoundException {
+        if (livros.contains(livro)) {
+            Livro l = livros.get(livros.indexOf(livro));
+            l.setQuantidade(livro.getQuantidade());
+        }
+        throw new LivroNotFoundException();
     }
     
     @Override
-    public boolean atualizar(Livro livro) throws RemoteException {
-        return true;
+    public boolean delete(String isbn) throws RemoteException {
+        Optional<Livro> livro = livros.stream().filter(l -> l.getIsbn().equalsIgnoreCase(isbn)).findFirst();
+        if (livro.isPresent()) {
+            livros.remove(livro.get());
+            return true;
+        }
+        return false;
     }
     
     @Override
-    public boolean delete(Livro livro) throws RemoteException, LivroNotFoundException {
-        return true;
+    public List<Livro> pegarTodos() throws RemoteException {
+        return livros;
     }
     
     @Override
-    public List<Livro> pegarTodos(Livro livro) throws RemoteException {
-        return null;
-    }
+    public Optional<Livro> findByIsbn(String isbn) throws RemoteException {
+        return livros.stream().filter(l -> l.getIsbn().equalsIgnoreCase(isbn)).findFirst();
+    };
     
 }

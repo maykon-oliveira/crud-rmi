@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Livro
@@ -9,11 +10,13 @@ public class Livro implements Serializable {
     private String isbn;
     private String nome;
     private String autor;
+    private Integer quantidade;
 
-    public Livro (String isbn, String nome, String autor) {
+    public Livro (String isbn, String nome, String autor, Integer quantidade) {
         this.isbn = isbn;
         this.nome = nome;
         this.autor = autor;
+        this.quantidade = quantidade;
     }
 
     public Livro () {}
@@ -58,6 +61,36 @@ public class Livro implements Serializable {
      */
     public void setAutor(String autor) {
         this.autor = autor;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.isbn);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Livro other = (Livro) obj;
+        return Objects.equals(this.isbn, other.isbn);
     }
 
 }

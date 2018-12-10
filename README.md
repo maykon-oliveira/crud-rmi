@@ -1,4 +1,10 @@
 ### Instrução
 
 1. `javac *.java`
-2. `rmic ServidorImple`
+
+**Em terminais diferentes**
+
+2. `rmiregistry`
+3. `java IniciaServidor`
+4. `java Cliente`
+
