@@ -28,19 +28,17 @@ public class ServidorImple extends UnicastRemoteObject implements Servidor {
     }
 
     @Override
-    public void atualizar(Livro livro) throws RemoteException, LivroNotFoundException {
+    public void atualizar(Livro livro) throws RemoteException {
         Integer index = livros.indexOf(livro);
         if (index != -1) {
             Livro l = livros.get(index);
             l.setQuantidade(livro.getQuantidade());
         }
-        throw new LivroNotFoundException();
     }
     
     @Override
     public boolean delete(String isbn) throws RemoteException {
         Optional<Livro> livro = livros.stream().filter(l -> l.getIsbn().equalsIgnoreCase(isbn)).findAny();
-        System.out.println(livro);
         if (livro.isPresent()) {
             livros.remove(livro.get());
             return true;
@@ -54,8 +52,14 @@ public class ServidorImple extends UnicastRemoteObject implements Servidor {
     }
     
     @Override
-    public Optional<Livro> findByIsbn(String isbn) throws RemoteException {
-        return livros.stream().filter(l -> l.getIsbn().equalsIgnoreCase(isbn)).findAny();
+    public Livro findByIsbn(String isbn) throws RemoteException, LivroNotFoundException {
+        Optional<Livro> livro = livros.stream().filter(l -> l.getIsbn().equalsIgnoreCase(isbn))
+            .findAny();
+        
+        if (livro.isPresent()) {
+            return livro.get();
+        }
+        throw new LivroNotFoundException();
     };
     
 }

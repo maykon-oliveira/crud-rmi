@@ -10,12 +10,12 @@ public interface Servidor extends Remote {
 
     public boolean addLivro(Livro livro) throws RemoteException;
 
-    public void atualizar(Livro livro) throws RemoteException, LivroNotFoundException;
+    public void atualizar(Livro livro) throws RemoteException;
     
     public boolean delete(String isbn) throws RemoteException;
 
     public List<Livro> pegarTodos() throws RemoteException;
     
-    public Optional<Livro> findByIsbn(String isbn) throws RemoteException;
+    public Livro findByIsbn(String isbn) throws RemoteException, LivroNotFoundException;
 
 }

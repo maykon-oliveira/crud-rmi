@@ -1,6 +1,6 @@
 ### Instrução
 
-1. `javac *.java`
+1. `javac *.java` - Tem que ser compilado com a versão 8 do java.
 
 **Em terminais diferentes**
 
